@@ -263,7 +263,8 @@ class AzureDevOpsClient:
         snapshots["date"] = pd.to_datetime(snapshots["DateValue"], utc=True).dt.tz_convert(self.settings.reporting_time_zone).dt.normalize().dt.tz_localize(None)
         snapshots["story_points"] = pd.to_numeric(snapshots["StoryPoints"], errors="coerce").fillna(0.0)
         history = snapshots.groupby("date", as_index=False).agg(scope=("story_points", "sum"))
-        remaining = snapshots.loc[~snapshots["IsDone"].fillna(False)].groupby("date", as_index=False).agg(remaining=("story_points", "sum"))
+        is_done = snapshots["IsDone"].fillna(False).astype(bool).to_numpy(dtype=bool)
+        remaining = snapshots.loc[~is_done].groupby("date", as_index=False).agg(remaining=("story_points", "sum"))
         return history.merge(remaining, on="date", how="left").fillna({"remaining": 0.0}).to_dict("records")
 
     def completed_iterations(self, project: str, limit: int = 50) -> list[dict[str, object]]:
