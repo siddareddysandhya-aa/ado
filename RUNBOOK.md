@@ -104,6 +104,32 @@ python -m pytest -q
 
 Expected result: all tests pass.
 
+## Generate a Build (Wheel/Sdist)
+
+Install the build tool inside the activated virtual environment:
+
+```cmd
+python -m pip install --upgrade build
+```
+
+Generate the distributable package (creates `dist\*.whl` and `dist\*.tar.gz`):
+
+```cmd
+python -m build
+```
+
+Install the built wheel on another machine to verify it:
+
+```cmd
+python -m pip install dist\ado_agile_metrics-0.1.0-py3-none-any.whl
+```
+
+Clean previous build artifacts before rebuilding:
+
+```powershell
+Remove-Item -Recurse -Force build, dist, src\ado_agile_metrics.egg-info -ErrorAction SilentlyContinue
+```
+
 ## Troubleshooting
 
 | Problem | Fix |
