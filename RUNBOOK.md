@@ -9,6 +9,24 @@ Use these steps to run the Azure DevOps Agile Metrics Portal on another Windows 
 - Copy the complete project folder to the new machine. Keep the `src`, `tests`, `app.py`, and `pyproject.toml` files and folders together.
 - Create an Azure DevOps PAT with `Project and Team: Read`, `Work Items: Read`, and Analytics access.
 
+## Automated Setup Script
+
+Run every step (venv, dependencies, `.env` creation, tests, and start) in order with one command from PowerShell:
+
+```powershell
+Set-Location C:\path\to\ado
+.\scripts\setup.ps1
+```
+
+Options:
+
+```powershell
+.\scripts\setup.ps1 -Build     # also generate a wheel/sdist before running
+.\scripts\setup.ps1 -SkipRun   # set up the environment and run tests, but don't start Streamlit
+```
+
+Edit `.env` with your Azure DevOps values the first time the script creates it, then re-run the script.
+
 ## Command Prompt Setup
 
 Open **Command Prompt** and navigate to the project folder:
