@@ -50,8 +50,8 @@ def load_rest_burndown(settings, access_token: str | None, allow_pat_fallback: b
 @st.cache_data(ttl=900, show_spinner="Loading Azure DevOps Analytics sprint history...")
 def load_analytics_burndown(settings, access_token: str | None, allow_pat_fallback: bool, project: str, iteration: str, scope: dict[str, tuple[str, ...]]) -> list[dict[str, object]]:
     """Cache Analytics snapshots used for Azure DevOps-aligned sprint burndown."""
-    return AzureDevOpsClient(settings, access_token, allow_pat_fallback).analytics_board_burndown_history(
-        project, iteration, scope
+    return AzureDevOpsClient(settings, access_token, allow_pat_fallback).analytics_burndown_history(
+        project, iteration, scope=scope
     )
 
 
@@ -313,9 +313,6 @@ def main() -> None:
 
     if not areas:
         st.info("Select an Area Path to generate the Azure DevOps Analytics charts.")
-        return
-    if not teams:
-        st.info("Select a Team / Squad to generate the Azure DevOps Analytics charts.")
         return
 
     metric_base = frame[
